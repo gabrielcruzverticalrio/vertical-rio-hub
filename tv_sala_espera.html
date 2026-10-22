@@ -106,7 +106,7 @@ function renderPoucos(f){cabecalho();const t=TX[lang];const el=document.getEleme
  const emb=hm(v.hora)-15;let seg=Math.max(0,Math.round((emb-agora)*60));const mm=String(Math.floor(seg/60)).padStart(2,'0'),ss=String(seg%60).padStart(2,'0');
  el.innerHTML=`<div><div class="rot">${t.prox}</div><div class="hgrande" style="color:${COR_ST[v.st]}">${t.st(v.st)}</div><div class="vgrande">${v.voo}</div><div class="hgrande">${t.dec} ${v.hora}</div>
  <div class="cd"><div class="rot">${seg>0?t.embEm:t.embAg}</div><div class="cdnum">${mm}:${ss}</div></div>
- <div class="depois">${f.slice(1,3).map(x=>`${t.dep}: ${x.hora} ${x.voo}<span class="bl" style="background:${PULSEIRAS[x.pulseira]}"></span>${t.cor(x.pulseira)}`).join('<br>')}</div></div>
+ </div>
  <div class="pulsGrande" style="background:${PULSEIRAS[v.pulseira]};${v.pulseira==='PRETA'?'box-shadow:0 0 0 3px rgba(255,255,255,.35)':''}"><b>${t.cor(v.pulseira)}</b><span>${t.pul}</span></div>`;
  document.getElementById('rod').textContent=t.rodP(t.cor(v.pulseira));
 }
