@@ -72,8 +72,8 @@ const IDIOMAS=['pt','en','es'];
 let lang=IDIOMAS.includes(param('idioma'))?param('idioma'):'pt';
 const TX={
  pt:{tit:'PARTIDAS',h:['HORA','VOO','PULSEIRA','STATUS'],st:s=>s,cor:c=>c,prox:'PRÓXIMO VOO',dec:'Decolagem',embEm:'EMBARQUE EM',embAg:'EMBARQUE AGORA',dep:'Depois',pul:'PULSEIRA',nada:'SEM MAIS VOOS HOJE',rod:'Confira a cor da sua pulseira.',rodEmb:(v,c)=>`Embarque ${v}: pulseira ${c}.`,rodP:c=>`Passageiros com pulseira ${c}, aguardem a chamada.`},
- en:{tit:'DEPARTURES',h:['TIME','FLIGHT','WRISTBAND','STATUS'],st:s=>STATUS_EN[s],cor:c=>({AZUL:'BLUE',VERDE:'GREEN',AMARELO:'YELLOW',LARANJA:'ORANGE',ROXO:'PURPLE',ROSA:'PINK',VERMELHO:'RED',BRANCO:'WHITE'})[c],prox:'NEXT FLIGHT',dec:'Departure',embEm:'BOARDING IN',embAg:'BOARDING NOW',dep:'Later',pul:'WRISTBAND',nada:'NO MORE FLIGHTS TODAY',rod:'Check your wristband color.',rodEmb:(v,c)=>`Boarding ${v}: ${c} wristband.`,rodP:c=>`${c} wristband passengers, please wait for the call.`},
- es:{tit:'SALIDAS',h:['HORA','VUELO','PULSERA','ESTADO'],st:s=>({'CHECK-IN ABERTO':'CHECK-IN ABIERTO','BRIEFING DE SEGURANÇA':'BRIEFING DE SEGURIDAD','EQUIPANDO':'EQUIPÁNDOSE','EMBARQUE':'EMBARQUE'})[s],cor:c=>({AZUL:'AZUL',VERDE:'VERDE',AMARELO:'AMARILLO',LARANJA:'NARANJA',ROXO:'MORADO',ROSA:'ROSA',VERMELHO:'ROJO',BRANCO:'BLANCO'})[c],prox:'PRÓXIMO VUELO',dec:'Despegue',embEm:'EMBARQUE EN',embAg:'EMBARQUE AHORA',dep:'Después',pul:'PULSERA',nada:'NO HAY MÁS VUELOS HOY',rod:'Verifique el color de su pulsera.',rodEmb:(v,c)=>`Embarque ${v}: pulsera ${c}.`,rodP:c=>`Pasajeros con pulsera ${c}, esperen el llamado.`}};
+ en:{tit:'DEPARTURES',h:['TIME','FLIGHT','WRISTBAND','STATUS'],st:s=>STATUS_EN[s],cor:c=>({PRETA:'BLACK',BRANCA:'WHITE',AMARELA:'YELLOW',VERDE:'GREEN'})[c],prox:'NEXT FLIGHT',dec:'Departure',embEm:'BOARDING IN',embAg:'BOARDING NOW',dep:'Later',pul:'WRISTBAND',nada:'NO MORE FLIGHTS TODAY',rod:'Check your wristband color.',rodEmb:(v,c)=>`Boarding ${v}: ${c} wristband.`,rodP:c=>`${c} wristband passengers, please wait for the call.`},
+ es:{tit:'SALIDAS',h:['HORA','VUELO','PULSERA','ESTADO'],st:s=>({'CHECK-IN ABERTO':'CHECK-IN ABIERTO','BRIEFING DE SEGURANÇA':'BRIEFING DE SEGURIDAD','EQUIPANDO':'EQUIPÁNDOSE','EMBARQUE':'EMBARQUE'})[s],cor:c=>({PRETA:'NEGRA',BRANCA:'BLANCA',AMARELA:'AMARILLA',VERDE:'VERDE'})[c],prox:'PRÓXIMO VUELO',dec:'Despegue',embEm:'EMBARQUE EN',embAg:'EMBARQUE AHORA',dep:'Después',pul:'PULSERA',nada:'NO HAY MÁS VUELOS HOY',rod:'Verifique el color de su pulsera.',rodEmb:(v,c)=>`Embarque ${v}: pulsera ${c}.`,rodP:c=>`Pasajeros con pulsera ${c}, esperen el llamado.`}};
 const ALF='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-';
 const forcar=param('modo')==='poucos';
 let agora=forcar?hm('16:16'):hm('10:02');
@@ -93,7 +93,7 @@ function cabecalho(){const t=TX[lang];document.getElementById('tit').textContent
 function render(){cabecalho();const t=TX[lang];
  document.getElementById('rel').textContent=fmtHM(agora);
  const futuros=VOOS.map(v=>({...v,st:stOf(v)})).filter(v=>v.st!=='DECOLOU');
- const poucos=forcar||futuros.length<=3;document.body.classList.toggle('poucos',poucos);
+ const poucos=true;document.body.classList.toggle('poucos',poucos);
  if(poucos){renderPoucos(futuros);return}
  const vis=futuros.slice(0,N);
  rows.forEach((r,i)=>{const v=vis[i];if(!v){setFlaps(r.h,'');setFlaps(r.v,'');setFlaps(r.s,'');r.b.style.background='transparent';return}
@@ -106,8 +106,8 @@ function renderPoucos(f){cabecalho();const t=TX[lang];const el=document.getEleme
  const emb=hm(v.hora)-15;let seg=Math.max(0,Math.round((emb-agora)*60));const mm=String(Math.floor(seg/60)).padStart(2,'0'),ss=String(seg%60).padStart(2,'0');
  el.innerHTML=`<div><div class="rot">${t.prox}</div><div class="hgrande" style="color:${COR_ST[v.st]}">${t.st(v.st)}</div><div class="vgrande">${v.voo}</div><div class="hgrande">${t.dec} ${v.hora}</div>
  <div class="cd"><div class="rot">${seg>0?t.embEm:t.embAg}</div><div class="cdnum">${mm}:${ss}</div></div>
- <div class="depois">${f.slice(1).map(x=>`${t.dep}: ${x.hora} ${x.voo}<span class="bl" style="background:${PULSEIRAS[x.pulseira]}"></span>${t.cor(x.pulseira)}`).join('<br>')}</div></div>
- <div class="pulsGrande" style="background:${PULSEIRAS[v.pulseira]}"><b>${t.cor(v.pulseira)}</b><span>${t.pul}</span></div>`;
+ <div class="depois">${f.slice(1,3).map(x=>`${t.dep}: ${x.hora} ${x.voo}<span class="bl" style="background:${PULSEIRAS[x.pulseira]}"></span>${t.cor(x.pulseira)}`).join('<br>')}</div></div>
+ <div class="pulsGrande" style="background:${PULSEIRAS[v.pulseira]};${v.pulseira==='PRETA'?'box-shadow:0 0 0 3px rgba(255,255,255,.35)':''}"><b>${t.cor(v.pulseira)}</b><span>${t.pul}</span></div>`;
  document.getElementById('rod').textContent=t.rodP(t.cor(v.pulseira));
 }
 window.addEventListener("storage",e=>{if(e.key==="vrhub_status")render()});
