@@ -1,12 +1,12 @@
 // DADOS DE EXEMPLO (ficticios)
-const PULSEIRAS={AZUL:'#1e63d6',VERDE:'#2e9d4f',AMARELO:'#f5c400',LARANJA:'#f07d1a',ROXO:'#7b3fbf',ROSA:'#e8559a',VERMELHO:'#c62828',BRANCO:'#f4f2ee'};
+const PULSEIRAS={PRETA:'#1c1c1e',BRANCA:'#f4f2ee',AMARELA:'#f5c400',VERDE:'#2e9d4f'};
 const ROTEIROS={CRISTO:{nome:'Cristo Redentor',min:12,preco:790},PANORAMICO:{nome:'Rio Panorâmico',min:20,preco:1290},COMPLETO:{nome:'Rio Completo',min:30,preco:1890},PRAIAS:{nome:'Praias e Lagoa',min:15,preco:990}};
 const VOOS=[
- ['09:00','VR101','AZUL','CRISTO',4],['09:30','VR102','VERDE','PANORAMICO',3],['10:00','VR103','AMARELO','PRAIAS',5],
- ['10:30','VR104','LARANJA','COMPLETO',2],['11:00','VR105','ROXO','CRISTO',5],['11:30','VR106','ROSA','PANORAMICO',4],
- ['12:15','VR107','VERMELHO','PRAIAS',3],['13:00','VR108','BRANCO','CRISTO',6],['13:45','VR109','AZUL','COMPLETO',4],
- ['14:30','VR110','VERDE','PANORAMICO',5],['15:15','VR111','AMARELO','CRISTO',2],['16:00','VR112','LARANJA','PRAIAS',4],
- ['16:45','VR113','ROXO','PANORAMICO',3],['17:20','VR114','ROSA','CRISTO',5]
+ ['09:00','VR101','PRETA','CRISTO',4],['09:30','VR102','BRANCA','PANORAMICO',3],['10:00','VR103','AMARELA','PRAIAS',5],
+ ['10:30','VR104','VERDE','COMPLETO',2],['11:00','VR105','PRETA','CRISTO',5],['11:30','VR106','BRANCA','PANORAMICO',4],
+ ['12:15','VR107','AMARELA','PRAIAS',3],['13:00','VR108','VERDE','CRISTO',6],['13:45','VR109','PRETA','COMPLETO',4],
+ ['14:30','VR110','BRANCA','PANORAMICO',5],['15:15','VR111','AMARELA','CRISTO',2],['16:00','VR112','VERDE','PRAIAS',4],
+ ['16:45','VR113','PRETA','PANORAMICO',3],['17:20','VR114','BRANCA','CRISTO',5]
 ].map(([hora,voo,pulseira,rot,pax])=>({hora,voo,pulseira,rot,pax,min:ROTEIROS[rot].min,preco:ROTEIROS[rot].preco}));
 const hm=s=>{const[a,b]=s.split(':').map(Number);return a*60+b};
 const fmtHM=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(Math.floor(m%60)).padStart(2,'0');
